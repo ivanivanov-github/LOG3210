@@ -1,0 +1,4 @@
+// Error test for return statement
+
+// Return statement out of function body
+return c;

@@ -1,0 +1,14 @@
+// Tests on function statement
+
+func fonction(b) {
+    while (1 == 1) {
+        c = b;
+
+        if (b == c)
+        {
+            return 0;
+        }
+     }
+
+    return 1;
+}

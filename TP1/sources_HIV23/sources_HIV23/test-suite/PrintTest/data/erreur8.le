@@ -1,0 +1,6 @@
+// Error test for function statement
+
+// Missing identifier
+func myfonction(a, b, ) {
+    return a == b;
+}

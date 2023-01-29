@@ -1,0 +1,14 @@
+// Error test for return statement
+
+// Return before end of block
+func myfonction(a) {
+    c = a;
+
+    return a + c;
+
+    while(1){
+        a = c + 1;
+    }
+
+    return a;
+}

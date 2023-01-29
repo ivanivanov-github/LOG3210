@@ -1,0 +1,9 @@
+func myfunction(b) {
+    c = 0;
+
+    for(a = b; a < 20; a = a + 1){
+        c = c + a;
+    }
+
+    return c;
+}

@@ -1,0 +1,19 @@
+func myfunction (b, b, b, c, e, f, g, h, i) {
+    do {
+        if ( 5 == 5 && 1 )
+            a = 0;
+        else if (0 == 1) {
+            a = 1;
+            return a;
+        }
+        else {
+            a = 2;
+            b = 2;
+            return c;
+        }
+    } while (1) ;
+
+    h = -123.456E+78;
+
+    return a || 1 && ( 1 == 1 && 1 == 0);
+}

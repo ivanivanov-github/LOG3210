@@ -1,0 +1,3 @@
+func myfunction(a) {
+    return 1;
+}

@@ -1,0 +1,9 @@
+func myfunction(a, b) {
+    a = 1;
+
+    for(;;){
+        return b;
+    }
+
+    return 1;
+}
