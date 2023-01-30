@@ -23,6 +23,10 @@ ASTProgram Program() throws ParseException {/*@bgen(jjtree) Program */
         WhileStmt();
         break;
         }
+      case DO:{
+        DoWhileStmt();
+        break;
+        }
       case 0:
       case IDENTIFIER:{
         Block();
@@ -35,7 +39,7 @@ ASTProgram Program() throws ParseException {/*@bgen(jjtree) Program */
         throw new ParseException();
       }
 jjtree.closeNodeScope(jjtn000, true);
-                                      jjtc000 = false;
+                                                      jjtc000 = false;
 {if ("" != null) return jjtn000;}
     } catch (Throwable jjte000) {
 if (jjtc000) {
@@ -101,6 +105,39 @@ if (jjtc000) {
         jj_la1[3] = jj_gen;
         ;
       }
+    } catch (Throwable jjte000) {
+if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        {if (true) throw (RuntimeException)jjte000;}
+      }
+      if (jjte000 instanceof ParseException) {
+        {if (true) throw (ParseException)jjte000;}
+      }
+      {if (true) throw (Error)jjte000;}
+    } finally {
+if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+}
+
+  final public void DoWhileStmt() throws ParseException {/*@bgen(jjtree) DoWhileStmt */
+  ASTDoWhileStmt jjtn000 = new ASTDoWhileStmt(JJTDOWHILESTMT);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      jj_consume_token(DO);
+      jj_consume_token(LACC);
+      WhileBlock();
+      jj_consume_token(RACC);
+      jj_consume_token(WHILE);
+      WhileCond();
+      jj_consume_token(SEMICOLON);
     } catch (Throwable jjte000) {
 if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -332,7 +369,7 @@ if (jjtc000) {
 	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x80001,0x0,0x0,0x0,0x0,0x0,};
+	   jj_la1_0 = new int[] {0xc0001,0x0,0x0,0x0,0x0,0x0,};
 	}
 	private static void jj_la1_init_1() {
 	   jj_la1_1 = new int[] {0x40000,0x40000,0x800,0x1000,0x40000,0x200000,};

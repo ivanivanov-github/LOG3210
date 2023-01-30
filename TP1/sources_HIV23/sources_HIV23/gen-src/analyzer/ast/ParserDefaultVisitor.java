@@ -15,6 +15,9 @@ public class ParserDefaultVisitor implements ParserVisitor{
   public Object visit(ASTWhileStmt node, Object data){
     return defaultVisit(node, data);
   }
+  public Object visit(ASTDoWhileStmt node, Object data){
+    return defaultVisit(node, data);
+  }
   public Object visit(ASTWhileCond node, Object data){
     return defaultVisit(node, data);
   }
@@ -34,4 +37,4 @@ public class ParserDefaultVisitor implements ParserVisitor{
     return defaultVisit(node, data);
   }
 }
-/* JavaCC - OriginalChecksum=a43b79893cabf0f1625fc9aa51c42f41 (do not edit this line) */
+/* JavaCC - OriginalChecksum=3bfeeb08528cb4cb24b0ef8a7e2b9b56 (do not edit this line) */

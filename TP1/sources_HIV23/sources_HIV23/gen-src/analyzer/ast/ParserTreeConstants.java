@@ -6,18 +6,20 @@ public interface ParserTreeConstants
   public int JJTPROGRAM = 0;
   public int JJTVOID = 1;
   public int JJTWHILESTMT = 2;
-  public int JJTWHILECOND = 3;
-  public int JJTWHILEBLOCK = 4;
-  public int JJTASSIGNSTMT = 5;
-  public int JJTIDENTIFIER = 6;
-  public int JJTINTVALUE = 7;
-  public int JJTREALVALUE = 8;
+  public int JJTDOWHILESTMT = 3;
+  public int JJTWHILECOND = 4;
+  public int JJTWHILEBLOCK = 5;
+  public int JJTASSIGNSTMT = 6;
+  public int JJTIDENTIFIER = 7;
+  public int JJTINTVALUE = 8;
+  public int JJTREALVALUE = 9;
 
 
   public String[] jjtNodeName = {
     "Program",
     "void",
     "WhileStmt",
+    "DoWhileStmt",
     "WhileCond",
     "WhileBlock",
     "AssignStmt",
@@ -26,4 +28,4 @@ public interface ParserTreeConstants
     "RealValue",
   };
 }
-/* JavaCC - OriginalChecksum=3a7497a7a04827b98d2857b07ab90480 (do not edit this line) */
+/* JavaCC - OriginalChecksum=4f0caca10f1f0141ae111959454e20c1 (do not edit this line) */
