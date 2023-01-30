@@ -148,12 +148,29 @@ TOKEN :
 
 ASTProgram Program() : { }
 {
-	Block() <EOF> { return jjtThis;  }
+    ( WhileStmt() | Block() <EOF> ) { return jjtThis;  }
 }
 
 void Block() #void : { }
 {
-	 ( Stmt() )*
+    ( Stmt() )*
+}
+
+void WhileStmt() : {}
+{
+    <WHILE> WhileCond() [ <LACC> ]
+        WhileBlock()
+    [ <RACC> ]
+}
+
+void WhileCond() : {}
+{
+    <LPAREN> Expr() <RPAREN>
+}
+
+void WhileBlock() : {}
+{
+    ( Stmt() )*
 }
 
 
