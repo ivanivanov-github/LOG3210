@@ -206,9 +206,9 @@ void ElseBlock() : {}
 {
     IfStmt()
     |
-    <LACC>
+    [ <LACC> ]
         ( Stmt() )*
-    <RACC>
+    [ <RACC> ]
 }
 
 
