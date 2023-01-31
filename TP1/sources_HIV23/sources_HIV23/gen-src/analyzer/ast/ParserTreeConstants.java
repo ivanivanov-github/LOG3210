@@ -9,10 +9,14 @@ public interface ParserTreeConstants
   public int JJTDOWHILESTMT = 3;
   public int JJTWHILECOND = 4;
   public int JJTWHILEBLOCK = 5;
-  public int JJTASSIGNSTMT = 6;
-  public int JJTIDENTIFIER = 7;
-  public int JJTINTVALUE = 8;
-  public int JJTREALVALUE = 9;
+  public int JJTIFSTMT = 6;
+  public int JJTIFCOND = 7;
+  public int JJTIFBLOCK = 8;
+  public int JJTELSEBLOCK = 9;
+  public int JJTASSIGNSTMT = 10;
+  public int JJTIDENTIFIER = 11;
+  public int JJTINTVALUE = 12;
+  public int JJTREALVALUE = 13;
 
 
   public String[] jjtNodeName = {
@@ -22,10 +26,14 @@ public interface ParserTreeConstants
     "DoWhileStmt",
     "WhileCond",
     "WhileBlock",
+    "IfStmt",
+    "IfCond",
+    "IfBlock",
+    "ElseBlock",
     "AssignStmt",
     "Identifier",
     "IntValue",
     "RealValue",
   };
 }
-/* JavaCC - OriginalChecksum=4f0caca10f1f0141ae111959454e20c1 (do not edit this line) */
+/* JavaCC - OriginalChecksum=8a18d25891d2e78ac1bf49863c99e2b9 (do not edit this line) */

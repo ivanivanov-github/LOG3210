@@ -148,7 +148,7 @@ TOKEN :
 
 ASTProgram Program() : { }
 {
-    ( WhileStmt() | DoWhileStmt() | Block() <EOF> ) { return jjtThis;  }
+    ( WhileStmt() | DoWhileStmt() | IfStmt()  | Block() <EOF> ) { return jjtThis;  }
 }
 
 void Block() #void : { }
@@ -156,6 +156,7 @@ void Block() #void : { }
     ( Stmt() )*
 }
 
+// While
 void WhileStmt() : {}
 {
     <WHILE> WhileCond() [ <LACC> ]
@@ -178,6 +179,36 @@ void WhileCond() : {}
 void WhileBlock() : {}
 {
     ( Stmt() )*
+}
+
+
+
+//Conditionnal structures
+void IfStmt() : {}
+{
+    <IF> IfCond() [ <LACC> ]
+            IfBlock()
+    [ <RACC> ]
+    ( LOOKAHEAD(2) <ELSE> ElseBlock() )* // REGARDES SI PROCHAIN TOKEN EST } OU IF?
+}
+
+void IfCond() : {}
+{
+    <LPAREN> Expr() <RPAREN>
+}
+
+void IfBlock() : {}
+{
+    ( Stmt() )*
+}
+
+void ElseBlock() : {}
+{
+    IfStmt()
+    |
+    <LACC>
+        ( Stmt() )*
+    <RACC>
 }
 
 
