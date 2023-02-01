@@ -42,6 +42,9 @@ public class ParserDefaultVisitor implements ParserVisitor{
   public Object visit(ASTAssignStmt node, Object data){
     return defaultVisit(node, data);
   }
+  public Object visit(ASTAddition node, Object data){
+    return defaultVisit(node, data);
+  }
   public Object visit(ASTMulti node, Object data){
     return defaultVisit(node, data);
   }
@@ -55,4 +58,4 @@ public class ParserDefaultVisitor implements ParserVisitor{
     return defaultVisit(node, data);
   }
 }
-/* JavaCC - OriginalChecksum=70dd52cd2097ecf2d26e6eaa9aee214c (do not edit this line) */
+/* JavaCC - OriginalChecksum=f9d598bb6dee10cf6d7a4317827f6840 (do not edit this line) */

@@ -136,7 +136,8 @@ TOKEN :
 	< #LETTER: ["a"-"z","A"-"Z","_"] > |
 	< #DIGIT: ["0"-"9"] > |
 	< INTEGER: ["1"-"9"] (["0"-"9"])* | "0" > |
-	< REAL: (<INTEGER>) > //TODO
+	< REAL: ( <MINUS> )? ( <INTEGER> )? "." ( <DIGIT> )* ( <EXPONENT> )? > | //TODO
+	< #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
 }
 
 
@@ -240,18 +241,35 @@ void AssignStmt() : { Token t;}
 
 void Expr() #void : {}
 {
-    LOOKAHEAD(2) Multi() | BasicExpr()
+    LOOKAHEAD(2) Operation() | BasicExpr()
+}
+
+void Operation() #void : {}
+{
+    LOOKAHEAD(2) Addition() | Multi()
+}
+
+void Addition() : {}
+{
+    IntValue() <PLUS> IntValue()
 }
 
 void Multi() : {}
 {
+    LOOKAHEAD(2)
     IntValue() <FOIS> IntValue()
+    |
+    IntValue() <DIV> IntValue()
 }
 
 void BasicExpr() #void : {}
 {
-	LOOKAHEAD(2) Identifier() |
+	LOOKAHEAD(2)
+	Identifier()
+	|
 	IntValue()
+	|
+    RealValue()
 }
 
 

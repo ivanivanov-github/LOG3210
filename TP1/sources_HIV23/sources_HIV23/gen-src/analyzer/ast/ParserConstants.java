@@ -108,6 +108,8 @@ public interface ParserConstants {
   int INTEGER = 53;
   /** RegularExpression Id. */
   int REAL = 54;
+  /** RegularExpression Id. */
+  int EXPONENT = 55;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -175,6 +177,7 @@ public interface ParserConstants {
     "<DIGIT>",
     "<INTEGER>",
     "<REAL>",
+    "<EXPONENT>",
   };
 
 }
