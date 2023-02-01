@@ -240,7 +240,12 @@ void AssignStmt() : { Token t;}
 
 void Expr() #void : {}
 {
-    BasicExpr()
+    LOOKAHEAD(2) Multi() | BasicExpr()
+}
+
+void Multi() : {}
+{
+    IntValue() <FOIS> IntValue()
 }
 
 void BasicExpr() #void : {}

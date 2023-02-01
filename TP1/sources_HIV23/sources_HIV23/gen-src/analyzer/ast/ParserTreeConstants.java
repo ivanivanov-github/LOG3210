@@ -15,9 +15,10 @@ public interface ParserTreeConstants
   public int JJTELSEBLOCK = 9;
   public int JJTFORSTMT = 10;
   public int JJTASSIGNSTMT = 11;
-  public int JJTIDENTIFIER = 12;
-  public int JJTINTVALUE = 13;
-  public int JJTREALVALUE = 14;
+  public int JJTMULTI = 12;
+  public int JJTIDENTIFIER = 13;
+  public int JJTINTVALUE = 14;
+  public int JJTREALVALUE = 15;
 
 
   public String[] jjtNodeName = {
@@ -33,9 +34,10 @@ public interface ParserTreeConstants
     "ElseBlock",
     "ForStmt",
     "AssignStmt",
+    "Multi",
     "Identifier",
     "IntValue",
     "RealValue",
   };
 }
-/* JavaCC - OriginalChecksum=76bd0b58aa13e94d1dadd13ae3c54b6a (do not edit this line) */
+/* JavaCC - OriginalChecksum=66024c63c9acd1be2b9fbeade267ec1a (do not edit this line) */
