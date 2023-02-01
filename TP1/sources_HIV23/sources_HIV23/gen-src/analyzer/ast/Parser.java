@@ -31,6 +31,10 @@ ASTProgram Program() throws ParseException {/*@bgen(jjtree) Program */
         IfStmt();
         break;
         }
+      case FOR:{
+        ForStmt();
+        break;
+        }
       case 0:
       case IDENTIFIER:{
         Block();
@@ -43,7 +47,7 @@ ASTProgram Program() throws ParseException {/*@bgen(jjtree) Program */
         throw new ParseException();
       }
 jjtree.closeNodeScope(jjtn000, true);
-                                                                  jjtc000 = false;
+                                                                             jjtc000 = false;
 {if ("" != null) return jjtn000;}
     } catch (Throwable jjte000) {
 if (jjtc000) {
@@ -83,7 +87,7 @@ if (jjtc000) {
     }
 }
 
-// While
+//While Do-While
   final public void WhileStmt() throws ParseException {/*@bgen(jjtree) WhileStmt */
   ASTWhileStmt jjtn000 = new ASTWhileStmt(JJTWHILESTMT);
   boolean jjtc000 = true;
@@ -423,6 +427,92 @@ if (jjtc000) {
     }
 }
 
+//For
+  final public void ForStmt() throws ParseException {/*@bgen(jjtree) ForStmt */
+  ASTForStmt jjtn000 = new ASTForStmt(JJTFORSTMT);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      jj_consume_token(FOR);
+      jj_consume_token(LPAREN);
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case IDENTIFIER:{
+        AssignStmt();
+        break;
+        }
+      default:
+        jj_la1[12] = jj_gen;
+        ;
+      }
+      jj_consume_token(SEMICOLON);
+      Expr();
+      jj_consume_token(SEMICOLON);
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case IDENTIFIER:{
+        AssignStmt();
+        break;
+        }
+      default:
+        jj_la1[13] = jj_gen;
+        ;
+      }
+      jj_consume_token(RPAREN);
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case LACC:{
+        jj_consume_token(LACC);
+        break;
+        }
+      default:
+        jj_la1[14] = jj_gen;
+        ;
+      }
+      ForBlock();
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case RACC:{
+        jj_consume_token(RACC);
+        break;
+        }
+      default:
+        jj_la1[15] = jj_gen;
+        ;
+      }
+    } catch (Throwable jjte000) {
+if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        {if (true) throw (RuntimeException)jjte000;}
+      }
+      if (jjte000 instanceof ParseException) {
+        {if (true) throw (ParseException)jjte000;}
+      }
+      {if (true) throw (Error)jjte000;}
+    } finally {
+if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+}
+
+  final public void ForBlock() throws ParseException {
+    label_6:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case IDENTIFIER:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[16] = jj_gen;
+        break label_6;
+      }
+      Stmt();
+    }
+}
+
   final public void Stmt() throws ParseException {
     AssignStmt();
     jj_consume_token(SEMICOLON);
@@ -471,7 +561,7 @@ if (jjtc000) {
         break;
         }
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[17] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -542,9 +632,16 @@ if (jjtc000) {
     finally { jj_save(1, xla); }
   }
 
-  private boolean jj_3R_7()
+  private boolean jj_3R_14()
  {
-    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_3R_8()) return true;
+    return false;
+  }
+
+  private boolean jj_3_1()
+ {
+    if (jj_scan_token(ELSE)) return true;
+    if (jj_3R_7()) return true;
     return false;
   }
 
@@ -554,65 +651,58 @@ if (jjtc000) {
     return false;
   }
 
-  private boolean jj_3_1()
+  private boolean jj_3R_8()
  {
-    if (jj_scan_token(ELSE)) return true;
-    if (jj_3R_6()) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_13()
+ {
+    if (jj_3R_14()) return true;
     return false;
   }
 
   private boolean jj_3R_11()
  {
-    if (jj_3R_12()) return true;
-    return false;
-  }
-
-  private boolean jj_3_2()
- {
-    if (jj_3R_7()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_10()
- {
     if (jj_scan_token(IF)) return true;
     return false;
   }
 
-  private boolean jj_3R_9()
+  private boolean jj_3R_10()
  {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(43)) jj_scanpos = xsp;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3R_11()) { jj_scanpos = xsp; break; }
+      if (jj_3R_12()) { jj_scanpos = xsp; break; }
     }
     xsp = jj_scanpos;
     if (jj_scan_token(44)) jj_scanpos = xsp;
     return false;
   }
 
-  private boolean jj_3R_6()
+  private boolean jj_3R_7()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_8()) {
+    if (jj_3R_9()) {
     jj_scanpos = xsp;
-    if (jj_3R_9()) return true;
+    if (jj_3R_10()) return true;
     }
     return false;
   }
 
-  private boolean jj_3R_8()
+  private boolean jj_3R_9()
  {
-    if (jj_3R_10()) return true;
+    if (jj_3R_11()) return true;
     return false;
   }
 
-  private boolean jj_3R_13()
+  private boolean jj_3_2()
  {
-    if (jj_3R_7()) return true;
+    if (jj_3R_8()) return true;
     return false;
   }
 
@@ -627,7 +717,7 @@ if (jjtc000) {
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[13];
+  final private int[] jj_la1 = new int[18];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -635,10 +725,10 @@ if (jjtc000) {
 	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0xc0201,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x200,0x0,};
+	   jj_la1_0 = new int[] {0x8c0201,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x200,0x0,0x0,0x0,0x0,0x0,0x0,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x40000,0x40000,0x800,0x1000,0x40000,0x800,0x1000,0x40000,0x800,0x40000,0x1000,0x0,0x200000,};
+	   jj_la1_1 = new int[] {0x40000,0x40000,0x800,0x1000,0x40000,0x800,0x1000,0x40000,0x800,0x40000,0x1000,0x0,0x40000,0x40000,0x800,0x1000,0x40000,0x200000,};
 	}
   final private JJCalls[] jj_2_rtns = new JJCalls[2];
   private boolean jj_rescan = false;
@@ -655,7 +745,7 @@ if (jjtc000) {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 18; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -671,7 +761,7 @@ if (jjtc000) {
 	 jj_ntk = -1;
 	 jjtree.reset();
 	 jj_gen = 0;
-	 for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 18; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -682,7 +772,7 @@ if (jjtc000) {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 18; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -702,7 +792,7 @@ if (jjtc000) {
 	 jj_ntk = -1;
 	 jjtree.reset();
 	 jj_gen = 0;
-	 for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 18; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -712,7 +802,7 @@ if (jjtc000) {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 18; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -723,7 +813,7 @@ if (jjtc000) {
 	 jj_ntk = -1;
 	 jjtree.reset();
 	 jj_gen = 0;
-	 for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 18; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -854,7 +944,7 @@ if (jjtc000) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 13; i++) {
+	 for (int i = 0; i < 18; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {

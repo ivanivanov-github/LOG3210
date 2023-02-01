@@ -13,9 +13,10 @@ public interface ParserVisitor
   public Object visit(ASTIfCond node, Object data);
   public Object visit(ASTIfBlock node, Object data);
   public Object visit(ASTElseBlock node, Object data);
+  public Object visit(ASTForStmt node, Object data);
   public Object visit(ASTAssignStmt node, Object data);
   public Object visit(ASTIdentifier node, Object data);
   public Object visit(ASTIntValue node, Object data);
   public Object visit(ASTRealValue node, Object data);
 }
-/* JavaCC - OriginalChecksum=594deddeb65c9031530d5e63df0af55e (do not edit this line) */
+/* JavaCC - OriginalChecksum=4016828e920716980fbb37b9fb49c932 (do not edit this line) */
