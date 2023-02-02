@@ -243,7 +243,7 @@ void FunctionParams() #void : {}
 
 void FunctionBlock() #void : {}
 {
-    ( Stmt() )* | ForBlock()
+    ( Stmt() )*
 }
 
 void ReturnStmt() : {}
@@ -294,7 +294,12 @@ void BasicExpr() #void : {}
 	|
 	IntValue()
 	|
-    [ <MINUS> ] RealValue()
+    ( Minus() RealValue() ) #Minus(>1)
+}
+
+void Minus() #void : {}
+{
+    [ <MINUS> ]
 }
 
 
