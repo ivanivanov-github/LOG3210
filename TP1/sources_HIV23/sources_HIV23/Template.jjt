@@ -136,7 +136,7 @@ TOKEN :
 	< #LETTER: ["a"-"z","A"-"Z","_"] > |
 	< #DIGIT: ["0"-"9"] > |
 	< INTEGER: ["1"-"9"] (["0"-"9"])* | "0" > |
-	< REAL: ( <MINUS> )? ( <INTEGER> )? "." ( <DIGIT> )* ( <EXPONENT> )? > | //TODO
+	< REAL: ( <INTEGER> )? "." ( <DIGIT> )* ( <EXPONENT> )? > | //TODO
 	< #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
 }
 
@@ -149,7 +149,7 @@ TOKEN :
 
 ASTProgram Program() : { }
 {
-    ( WhileStmt() | DoWhileStmt() | IfStmt() | ForStmt() | Block() <EOF> ) { return jjtThis;  }
+    ( WhileStmt() | DoWhileStmt() | IfStmt() | ForStmt() | FunctionStmt() | Block() <EOF> ) { return jjtThis;  }
 }
 
 void Block() #void : { }
@@ -227,6 +227,31 @@ void ForBlock() #void : {}
     ( Stmt() )*
 }
 
+//Funtion
+void FunctionStmt() : {}
+{
+    <FUNC> Identifier() <LPAREN> [ FunctionParams() ] <RPAREN> <LACC>
+        FunctionBlock()
+        [ ReturnStmt() ]
+    <RACC>
+}
+
+void FunctionParams() #void : {}
+{
+    Identifier() ( <COMMA> Identifier() )*
+}
+
+void FunctionBlock() #void : {}
+{
+    ( Stmt() )* | ForBlock()
+}
+
+void ReturnStmt() : {}
+{
+    <RET> Expr() <SEMICOLON>
+}
+
+
 
 void Stmt() #void : { }
 {
@@ -269,7 +294,7 @@ void BasicExpr() #void : {}
 	|
 	IntValue()
 	|
-    RealValue()
+    [ <MINUS> ] RealValue()
 }
 
 

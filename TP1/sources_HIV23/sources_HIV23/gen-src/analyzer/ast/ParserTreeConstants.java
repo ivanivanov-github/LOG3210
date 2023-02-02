@@ -14,12 +14,14 @@ public interface ParserTreeConstants
   public int JJTIFBLOCK = 8;
   public int JJTELSEBLOCK = 9;
   public int JJTFORSTMT = 10;
-  public int JJTASSIGNSTMT = 11;
-  public int JJTADDITION = 12;
-  public int JJTMULTI = 13;
-  public int JJTIDENTIFIER = 14;
-  public int JJTINTVALUE = 15;
-  public int JJTREALVALUE = 16;
+  public int JJTFUNCTIONSTMT = 11;
+  public int JJTRETURNSTMT = 12;
+  public int JJTASSIGNSTMT = 13;
+  public int JJTADDITION = 14;
+  public int JJTMULTI = 15;
+  public int JJTIDENTIFIER = 16;
+  public int JJTINTVALUE = 17;
+  public int JJTREALVALUE = 18;
 
 
   public String[] jjtNodeName = {
@@ -34,6 +36,8 @@ public interface ParserTreeConstants
     "IfBlock",
     "ElseBlock",
     "ForStmt",
+    "FunctionStmt",
+    "ReturnStmt",
     "AssignStmt",
     "Addition",
     "Multi",
@@ -42,4 +46,4 @@ public interface ParserTreeConstants
     "RealValue",
   };
 }
-/* JavaCC - OriginalChecksum=6059676a559f9ffdaf86b7e20cbeafab (do not edit this line) */
+/* JavaCC - OriginalChecksum=000344bf4441f7e1ab05c5729851ccd5 (do not edit this line) */
