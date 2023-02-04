@@ -271,20 +271,17 @@ void Expr() #void : {}
 
 void Operation() #void : {}
 {
-    LOOKAHEAD(2) Addition() | Multi()
+    ( LOOKAHEAD(2) Addition() | Multi() )+
 }
 
 void Addition() : {}
 {
-    IntValue() <PLUS> IntValue()
+    IntValue() ( <PLUS> IntValue() )+
 }
 
 void Multi() : {}
 {
-    LOOKAHEAD(2)
-    IntValue() <FOIS> IntValue()
-    |
-    IntValue() <DIV> IntValue()
+    IntValue() ( ( LOOKAHEAD(2) <FOIS> | <DIV> ) IntValue() )+
 }
 
 void BasicExpr() #void : {}
