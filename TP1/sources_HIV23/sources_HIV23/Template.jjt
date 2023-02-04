@@ -162,7 +162,7 @@ void WhileStmt() : {}
 {
     <WHILE> WhileCond() [ <LACC> ]
         WhileBlock()
-    [ <RACC> ]
+    [ LOOKAHEAD(2) <RACC> ]
 }
 
 void DoWhileStmt() : {}
@@ -179,7 +179,11 @@ void WhileCond() : {}
 
 void WhileBlock() : {}
 {
-    ( Stmt() )*
+//    ( LOOKAHEAD(2) ( LOOKAHEAD(2) Stmt() | IfStmt() ) )*
+//     [ LOOKAHEAD(2) ReturnStmt() ]
+
+     FunctionBlock()
+          [ LOOKAHEAD(2) ReturnStmt() ]
 }
 
 
@@ -189,7 +193,7 @@ void IfStmt() : {}
 {
     <IF> IfCond() [ <LACC> ]
             IfBlock()
-    [ <RACC> ]
+    [ LOOKAHEAD(2) <RACC> ]
     ( LOOKAHEAD(2) <ELSE> ElseBlock() )* // REGARDES SI PROCHAIN TOKEN EST } OU IF?
 }
 
@@ -200,7 +204,8 @@ void IfCond() : {}
 
 void IfBlock() : {}
 {
-    ( Stmt() )*
+    ( LOOKAHEAD(2) Stmt() )*
+     [ LOOKAHEAD(2) ReturnStmt() ]
 }
 
 void ElseBlock() : {}
@@ -208,8 +213,8 @@ void ElseBlock() : {}
     IfStmt()
     |
     [ <LACC> ]
-        ( Stmt() )*
-    [ <RACC> ]
+        ( LOOKAHEAD(2) Stmt() )*
+    [ LOOKAHEAD(2) <RACC> ]
 }
 
 
@@ -217,14 +222,19 @@ void ElseBlock() : {}
 //For
 void ForStmt() : {}
 {
-    <FOR> <LPAREN> [ AssignStmt() ] <SEMICOLON> Expr() <SEMICOLON> [ AssignStmt() ] <RPAREN> [ <LACC> ]
+    <FOR> <LPAREN> [ AssignStmt() ] <SEMICOLON> [ Expr() ] <SEMICOLON> [ AssignStmt() ] <RPAREN> [ <LACC> ]
         ForBlock()
-    [ <RACC> ]
+    [ LOOKAHEAD(2) <RACC> ]
 }
 
 void ForBlock() #void : {}
 {
-    ( Stmt() )*
+//    ( LOOKAHEAD(2) Stmt() )*
+//     [ LOOKAHEAD(2) ReturnStmt() ]
+
+    FunctionBlock()
+     [ LOOKAHEAD(2) ReturnStmt() ]
+
 }
 
 //Funtion
@@ -243,19 +253,30 @@ void FunctionParams() #void : {}
 
 void FunctionBlock() #void : {}
 {
-    ( Stmt() )*
+    ( LOOKAHEAD(2) Stmt() )+
+    |
+    ForStmt()
+    |
+    WhileStmt()
+    |
+    DoWhileStmt()
+    FunctionBlock()
+    |
+    IfStmt()
+    |
+    ReturnStmt()
 }
 
 void ReturnStmt() : {}
 {
-    <RET> Expr() <SEMICOLON>
+    <RET> [ Expr() ] <SEMICOLON>
 }
 
 
 
 void Stmt() #void : { }
 {
-	AssignStmt() <SEMICOLON>
+	AssignStmt() <SEMICOLON> [ LOOKAHEAD(2) FunctionBlock() ]
 }
 
 void AssignStmt() : { Token t;}
@@ -320,16 +341,21 @@ void BasicExpr() #void : {}
 //	|
 //    ( Minus() ( RealValue() ) ) #Minus(>1)
     |
-    Minus()
+    MinusExpr()
     |
     NotExpr()
     |
     <LPAREN> Operation() <RPAREN>
 }
 
+void MinusExpr() #void : {}
+{
+    <MINUS> Minus()
+}
+
 void Minus() : {}
 {
-    <MINUS> (IntValue() | RealValue() | Identifier() )
+    <MINUS> Minus() | (IntValue() | RealValue() | Identifier() )
 }
 
 void NotExpr() #void : {}
