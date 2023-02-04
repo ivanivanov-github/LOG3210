@@ -17,12 +17,15 @@ public interface ParserTreeConstants
   public int JJTFUNCTIONSTMT = 11;
   public int JJTRETURNSTMT = 12;
   public int JJTASSIGNSTMT = 13;
-  public int JJTADDITION = 14;
-  public int JJTMULTI = 15;
-  public int JJTMINUS = 16;
-  public int JJTIDENTIFIER = 17;
-  public int JJTINTVALUE = 18;
-  public int JJTREALVALUE = 19;
+  public int JJTLOGIC = 14;
+  public int JJTCOMPARE = 15;
+  public int JJTADDITION = 16;
+  public int JJTMULTI = 17;
+  public int JJTMINUS = 18;
+  public int JJTNOT = 19;
+  public int JJTIDENTIFIER = 20;
+  public int JJTINTVALUE = 21;
+  public int JJTREALVALUE = 22;
 
 
   public String[] jjtNodeName = {
@@ -40,12 +43,15 @@ public interface ParserTreeConstants
     "FunctionStmt",
     "ReturnStmt",
     "AssignStmt",
+    "Logic",
+    "Compare",
     "Addition",
     "Multi",
     "Minus",
+    "Not",
     "Identifier",
     "IntValue",
     "RealValue",
   };
 }
-/* JavaCC - OriginalChecksum=bdd5476203da8bb40697ee9373d22a8b (do not edit this line) */
+/* JavaCC - OriginalChecksum=703895421ed35eb881ad4af173a7fd5d (do not edit this line) */

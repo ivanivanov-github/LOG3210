@@ -1,4 +1,5 @@
   Program
    AssignStmt
     Identifier
-    RealValue
+    Minus
+     RealValue

@@ -269,35 +269,93 @@ void Expr() #void : {}
     LOOKAHEAD(2) Operation() | BasicExpr()
 }
 
+//void Operation() #void : {}
+//{
+//    ( LOOKAHEAD(2) Addition() | Multi() )+
+//}
+//
+//void Addition() : {}
+//{
+//    IntValue() ( <PLUS> IntValue() )+
+//}
+//
+//void Multi() : {}
+//{
+//    IntValue() ( ( LOOKAHEAD(2) <FOIS> | <DIV> ) IntValue() )+
+//}
+
 void Operation() #void : {}
 {
-    ( LOOKAHEAD(2) Addition() | Multi() )+
+    OrAndExpr()
 }
 
-void Addition() : {}
+void OrAndExpr() #void : {}
 {
-    IntValue() ( <PLUS> IntValue() )+
+    ( CompExpr() ( <LOGIC> CompExpr() )* )#Logic(>1)
 }
 
-void Multi() : {}
+void CompExpr() #void : {}
 {
-    IntValue() ( ( LOOKAHEAD(2) <FOIS> | <DIV> ) IntValue() )+
+    ( MinusPlusExpr() ( <COMPARE> MinusPlusExpr() )* )#Compare(>1)
+}
+
+void MinusPlusExpr() #void : {}
+{
+    ( MultiDivExpr() ( ( <PLUS> | <MINUS> ) MultiDivExpr() )* )#Addition(>1)
+}
+
+void MultiDivExpr() #void : {}
+{
+    ( BasicExpr() ( ( <FOIS> | <DIV> ) BasicExpr() )* )#Multi(>1)
 }
 
 void BasicExpr() #void : {}
 {
-	LOOKAHEAD(2)
+	LOOKAHEAD(3)
 	Identifier()
 	|
 	IntValue()
 	|
-    ( Minus() RealValue() ) #Minus(>1)
+	RealValue()
+//	|
+//    ( Minus() ( RealValue() ) ) #Minus(>1)
+    |
+    Minus()
+    |
+    NotExpr()
+    |
+    <LPAREN> Operation() <RPAREN>
 }
 
-void Minus() #void : {}
+void Minus() : {}
 {
-    [ <MINUS> ]
+    <MINUS> (IntValue() | RealValue() | Identifier() )
 }
+
+void NotExpr() #void : {}
+{
+    <NOT> Not()
+}
+
+void Not() : {}
+{
+    <NOT> Not() | Identifier()
+}
+
+//void Not() : {}
+//{
+//    <NOT> ( LOOKAHEAD(2) NotExpr() [ LOOKAHEAD(2) Identifier() ])*
+//}
+//
+//void NotExpr() #void : {}
+//{
+//    Not()
+//}
+
+//void Minus() #void : {}
+//{
+//    [ <MINUS> ]
+//}
 
 
 

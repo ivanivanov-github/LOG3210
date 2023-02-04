@@ -17,11 +17,14 @@ public interface ParserVisitor
   public Object visit(ASTFunctionStmt node, Object data);
   public Object visit(ASTReturnStmt node, Object data);
   public Object visit(ASTAssignStmt node, Object data);
+  public Object visit(ASTLogic node, Object data);
+  public Object visit(ASTCompare node, Object data);
   public Object visit(ASTAddition node, Object data);
   public Object visit(ASTMulti node, Object data);
   public Object visit(ASTMinus node, Object data);
+  public Object visit(ASTNot node, Object data);
   public Object visit(ASTIdentifier node, Object data);
   public Object visit(ASTIntValue node, Object data);
   public Object visit(ASTRealValue node, Object data);
 }
-/* JavaCC - OriginalChecksum=35c08cbedf7f328fecc51d1561cd370d (do not edit this line) */
+/* JavaCC - OriginalChecksum=c79ec6ad4ce2af06e0a9cc41721fceb7 (do not edit this line) */
