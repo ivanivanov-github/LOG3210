@@ -179,9 +179,6 @@ void WhileCond() : {}
 
 void WhileBlock() : {}
 {
-//    ( LOOKAHEAD(2) ( LOOKAHEAD(2) Stmt() | IfStmt() ) )*
-//     [ LOOKAHEAD(2) ReturnStmt() ]
-
      FunctionBlock()
           [ LOOKAHEAD(2) ReturnStmt() ]
 }
@@ -194,7 +191,7 @@ void IfStmt() : {}
     <IF> IfCond() [ <LACC> ]
             IfBlock()
     [ LOOKAHEAD(2) <RACC> ]
-    ( LOOKAHEAD(2) <ELSE> ElseBlock() )* // REGARDES SI PROCHAIN TOKEN EST } OU IF?
+    ( LOOKAHEAD(2) <ELSE> ElseBlock() )*
 }
 
 void IfCond() : {}
@@ -229,12 +226,8 @@ void ForStmt() : {}
 
 void ForBlock() #void : {}
 {
-//    ( LOOKAHEAD(2) Stmt() )*
-//     [ LOOKAHEAD(2) ReturnStmt() ]
-
     FunctionBlock()
      [ LOOKAHEAD(2) ReturnStmt() ]
-
 }
 
 //Funtion
@@ -290,21 +283,6 @@ void Expr() #void : {}
     LOOKAHEAD(2) Operation() | BasicExpr()
 }
 
-//void Operation() #void : {}
-//{
-//    ( LOOKAHEAD(2) Addition() | Multi() )+
-//}
-//
-//void Addition() : {}
-//{
-//    IntValue() ( <PLUS> IntValue() )+
-//}
-//
-//void Multi() : {}
-//{
-//    IntValue() ( ( LOOKAHEAD(2) <FOIS> | <DIV> ) IntValue() )+
-//}
-
 void Operation() #void : {}
 {
     OrAndExpr()
@@ -338,8 +316,6 @@ void BasicExpr() #void : {}
 	IntValue()
 	|
 	RealValue()
-//	|
-//    ( Minus() ( RealValue() ) ) #Minus(>1)
     |
     MinusExpr()
     |
@@ -367,21 +343,6 @@ void Not() : {}
 {
     <NOT> Not() | Identifier()
 }
-
-//void Not() : {}
-//{
-//    <NOT> ( LOOKAHEAD(2) NotExpr() [ LOOKAHEAD(2) Identifier() ])*
-//}
-//
-//void NotExpr() #void : {}
-//{
-//    Not()
-//}
-
-//void Minus() #void : {}
-//{
-//    [ <MINUS> ]
-//}
 
 
 
