@@ -85,8 +85,18 @@ public class SemantiqueVisitor implements ParserVisitor {
     // Enregistre les variables avec leur type dans la table symbolique.
     @Override
     public Object visit(ASTDeclaration node, Object data) {
-        String varName = ((ASTIdentifier) node.jjtGetChild(0)).getValue();
         // TODO
+        VAR++;
+        String varName = ((ASTIdentifier) node.jjtGetChild(0)).getValue();
+        if (SymbolTable.containsKey(varName))
+            throw new SemantiqueError(String.format("Identifier %s has multiple declarations", varName));
+
+        VarType varType = VarType.Number;
+
+        if (node.getValue().equals(VarType.Bool.toString()))
+            varType = VarType.Bool;
+
+        SymbolTable.put(varName, varType);
         return null;
     }
 
