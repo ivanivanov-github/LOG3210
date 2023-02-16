@@ -77,7 +77,7 @@ public class SemantiqueVisitor implements ParserVisitor {
 
     @Override
     public Object visit(ASTProgram node, Object data) {
-        node.childrenAccept(this, data);
+        node.childrenAccept(this, new DataStruct());
         m_writer.print(String.format("{VAR:%d, WHILE:%d, IF:%d, FUNC:%d, OP:%d}", this.VAR, this.WHILE, this.IF, this.FUNC, this.OP));
         return null;
     }
@@ -93,10 +93,11 @@ public class SemantiqueVisitor implements ParserVisitor {
 
         VarType varType = VarType.Number;
 
-        if (node.getValue().equals(VarType.Bool.toString()))
+        if (node.getValue().equals(VarType.Bool.toString().toLowerCase()))
             varType = VarType.Bool;
 
         SymbolTable.put(varName, varType);
+        ((DataStruct)data).type = varType;
         return null;
     }
 
@@ -118,6 +119,8 @@ public class SemantiqueVisitor implements ParserVisitor {
         node.jjtGetChild(0).jjtAccept(this, d);
 
         // TODO
+        if (d.type != VarType.Bool)
+            throw new SemantiqueError("Invalid type in condition");
 
         int numChildren = node.jjtGetNumChildren();
         for (int i = 1; i < numChildren; i++) {
@@ -131,12 +134,16 @@ public class SemantiqueVisitor implements ParserVisitor {
     @Override
     public Object visit(ASTIfStmt node, Object data) {
         // TODO : Fiez vous aux langages pour determiner les noeuds enfants possible
+        IF++;
+        callChildenCond(node);
         return null;
     }
 
     @Override
     public Object visit(ASTWhileStmt node, Object data) {
         // TODO
+        WHILE++;
+        callChildenCond(node);
         return null;
     }
 
@@ -162,12 +169,21 @@ public class SemantiqueVisitor implements ParserVisitor {
     @Override
     public Object visit(ASTAssignStmt node, Object data) {
         // TODO
+        node.childrenAccept(this, data);
+        String varName = ((ASTIdentifier)node.jjtGetChild(0)).getValue();
+
+        VarType varType = SymbolTable.get(varName);
+        if (!varType.equals(((DataStruct)data).type)) {
+            throw new SemantiqueError(String.format("Invalid type in assignation of Identifier %s", varName));
+        }
+
         return null;
     }
 
     @Override
     public Object visit(ASTExpr node, Object data) {
         // TODO
+        node.childrenAccept(this, data);
         return null;
     }
 
@@ -182,6 +198,25 @@ public class SemantiqueVisitor implements ParserVisitor {
             soit le même des deux côtés de l'égalité/l'inégalité.
         */
         // TODO
+        ArrayList<VarType> types = new ArrayList<>();
+        for(int i = 0; i < node.jjtGetNumChildren(); i++){
+            node.jjtGetChild(i).jjtAccept(this,data);
+            types.add(((DataStruct)data).type);
+        }
+
+        if(types.size() == 1)
+            return null;
+
+        boolean sameTypeBothSide = types.get(0).equals(types.get(1));
+        boolean opEquals = node.getValue().equals("==");
+        boolean opNotEquals = node.getValue().equals("!=");
+        boolean opNums = types.get(0).equals(VarType.Number);
+
+        if ((!opEquals&& !opNotEquals  && !opNums) || !sameTypeBothSide)
+            throw new SemantiqueError("Invalid type in expression");
+        ((DataStruct)data).type = VarType.Bool;
+        OP++;
+
         return null;
     }
 
@@ -189,15 +224,24 @@ public class SemantiqueVisitor implements ParserVisitor {
     /*
         Opérateur binaire :
         - s’il n'y a qu'un enfant, aucune vérification à faire.
-        - Par exemple, un AddExpr peut retourner le type "Bool" à condition de n'avoir qu'un seul enfant.
+        - Par exemple, un AddExpr peut retourner le type "Bool"
+        à condition de n'avoir qu'un seul enfant.
      */
     @Override
     public Object visit(ASTAddExpr node, Object data) {
         // TODO
         int numChildren = node.jjtGetNumChildren();
+        if (numChildren == 1) {
+            node.childrenAccept(this, data);
+            return null;
+        }
+        OP--;
         for (int i = 0; i < numChildren; i++) {
-            DataStruct d = new DataStruct();
-            node.jjtGetChild(i).jjtAccept(this, d);
+            OP++;
+//            DataStruct d = new DataStruct();
+            node.jjtGetChild(i).jjtAccept(this, data);
+            if (!((DataStruct)data).type.equals(VarType.Number))
+                throw new SemantiqueError("Invalid type in expression");
         }
         return null;
     }
@@ -206,9 +250,17 @@ public class SemantiqueVisitor implements ParserVisitor {
     public Object visit(ASTMulExpr node, Object data) {
         // TODO
         int numChildren = node.jjtGetNumChildren();
+        if (numChildren == 1) {
+            node.childrenAccept(this, data);
+            return null;
+        }
+        OP--;
         for (int i = 0; i < numChildren; i++) {
-            DataStruct d = new DataStruct();
-            node.jjtGetChild(i).jjtAccept(this, d);
+            OP++;
+//            DataStruct d = new DataStruct();
+            node.jjtGetChild(i).jjtAccept(this, data);
+            if (!((DataStruct)data).type.equals(VarType.Number))
+                throw new SemantiqueError("Invalid type in expression");
         }
         return null;
     }
@@ -217,9 +269,17 @@ public class SemantiqueVisitor implements ParserVisitor {
     public Object visit(ASTBoolExpr node, Object data) {
         // TODO
         int numChildren = node.jjtGetNumChildren();
+        if (numChildren == 1) {
+            node.childrenAccept(this, data);
+            return null;
+        }
+        OP--;
         for (int i = 0; i < numChildren; i++) {
-            DataStruct d = new DataStruct();
-            node.jjtGetChild(i).jjtAccept(this, d);
+            OP++;
+            // DataStruct d = new DataStruct();
+            node.jjtGetChild(i).jjtAccept(this, data);
+            if (!((DataStruct)data).type.equals(VarType.Bool))
+                throw new SemantiqueError("Invalid type in expression");
         }
         return null;
     }
@@ -235,12 +295,21 @@ public class SemantiqueVisitor implements ParserVisitor {
     @Override
     public Object visit(ASTNotExpr node, Object data) {
         // TODO
+        node.childrenAccept(this, data);
+        if(node.getOps().size() > 0 && !((DataStruct)data).type.equals(VarType.Bool))
+            throw new SemantiqueError("Invalid type in expression");
+        OP += node.getOps().size();
         return null;
     }
 
     @Override
     public Object visit(ASTUnaExpr node, Object data) {
         // TODO
+        node.childrenAccept(this, data);
+        if(node.getOps().size() > 0 && !((DataStruct)data).type.equals(VarType.Number))
+            throw new SemantiqueError("Invalid type in expression");
+
+        OP += node.getOps().size();
         return null;
     }
 
