@@ -1,0 +1,15 @@
+Declaration
+num a;
+num b;
+EndDeclaration
+
+script1 {
+  a = 1;
+}
+
+script2 {
+  a = 1 - 2;
+  b = a / 3;
+}
+
+script3()

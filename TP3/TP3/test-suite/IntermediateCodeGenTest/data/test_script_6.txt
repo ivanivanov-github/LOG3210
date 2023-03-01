@@ -1,0 +1,34 @@
+Declaration
+num a;
+bool b;
+bool c;
+EndDeclaration
+
+script1 {
+  while(b) {
+    a = 42;
+  }
+}
+
+script2 {
+  while(b) {
+    while(c && true) {
+      a = 42;
+    }
+  }
+}
+
+script3 {
+  if(a > 3) {
+    a = 1234;
+  }
+  else{
+    if(b) {
+      a = 5678;
+    }
+  }
+}
+
+script1()
+script3()
+script2()

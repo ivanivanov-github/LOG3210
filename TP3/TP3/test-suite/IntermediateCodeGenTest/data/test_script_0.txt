@@ -1,0 +1,14 @@
+Declaration
+num a;
+num b;
+EndDeclaration
+
+script1 {
+  a = 1;
+}
+
+script2 {
+  b = 2;
+}
+
+script1()

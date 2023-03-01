@@ -1,0 +1,20 @@
+Declaration
+num a;
+EndDeclaration
+
+setup {
+  a = - 4;
+}
+
+code {
+  a = a + 1;
+}
+
+teardown {
+  a = 0;
+}
+
+setup()
+code()
+code()
+teardown()
