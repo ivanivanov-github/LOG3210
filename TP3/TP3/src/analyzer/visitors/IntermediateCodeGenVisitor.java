@@ -121,8 +121,18 @@ public class IntermediateCodeGenVisitor implements ParserVisitor {
         String identifier = ((ASTIdentifier) node.jjtGetChild(0)).getValue();
 //        node.jjtGetChild(1).jjtAccept(this, data);
         // TODO
-        String addr = node.jjtGetChild(1).jjtAccept(this, data).toString();
-        m_writer.println(identifier + " = " + addr);
+        if (SymbolTable.get(identifier) == VarType.Number) {
+            String addr = node.jjtGetChild(1).jjtAccept(this, data).toString();
+            m_writer.println(identifier + " = " + addr);
+        } else if (SymbolTable.get(identifier) == VarType.Bool) {
+            BoolLabel b = new BoolLabel(newLabel(), newLabel());
+            node.jjtGetChild(1).jjtAccept(this, b);
+            m_writer.println(b.lTrue);
+            m_writer.println(identifier + " = 1");
+            m_writer.println("goto " + data.toString());
+            m_writer.println(b.lFalse);
+            m_writer.println(identifier + " = 0");
+        }
         return null;
     }
 
@@ -182,21 +192,49 @@ public class IntermediateCodeGenVisitor implements ParserVisitor {
     public Object visit(ASTBoolExpr node, Object data) {
 //        node.childrenAccept(this, data);
         // TODO
-        return node.jjtGetChild(0).jjtAccept(this, data);
+        if (node.jjtGetNumChildren() == 1) {
+            return node.jjtGetChild(0).jjtAccept(this, data);
+        } else if (node.getOps().get(0).toString().equals("&&")) {
+            BoolLabel B1 = new BoolLabel(newLabel(), ((BoolLabel) data).lFalse);
+            BoolLabel B2 = new BoolLabel(((BoolLabel) data).lTrue, ((BoolLabel) data).lFalse);
+            node.jjtGetChild(0).jjtAccept(this, B1);
+            m_writer.println(B1.lTrue);
+            node.jjtGetChild(1).jjtAccept(this, B2);
+        } else if (node.getOps().get(0).toString().equals("||")) {
+            BoolLabel B1 = new BoolLabel(((BoolLabel) data).lTrue, newLabel());
+            BoolLabel B2 = new BoolLabel(((BoolLabel) data).lTrue, ((BoolLabel) data).lFalse);
+            node.jjtGetChild(0).jjtAccept(this, B1);
+            m_writer.println(B1.lFalse);
+            node.jjtGetChild(1).jjtAccept(this, B2);
+        }
+        return null;
     }
 
     @Override
     public Object visit(ASTCompExpr node, Object data) {
 //        node.childrenAccept(this, data);
         // TODO
-        return node.jjtGetChild(0).jjtAccept(this, data);
+        if (node.jjtGetNumChildren() == 1) {
+            return node.jjtGetChild(0).jjtAccept(this, data);
+        } else {
+            String id1 = node.jjtGetChild(0).jjtAccept(this, data).toString();
+            String id2 = node.jjtGetChild(1).jjtAccept(this, data).toString();
+
+            m_writer.println("if " + id1 + " " + node.getValue() + " " + id2 + " goto " + ((BoolLabel) data).lTrue);
+            m_writer.println("goto " + ((BoolLabel) data).lFalse);
+            return null;
+        }
     }
 
     @Override
     public Object visit(ASTNotExpr node, Object data) {
 //        node.jjtGetChild(0).jjtAccept(this, data);
         // TODO
-        return node.jjtGetChild(0).jjtAccept(this, data);
+        if (node.getOps().size() % 2 == 0)
+            return node.jjtGetChild(0).jjtAccept(this, data);
+
+        BoolLabel B1 = new BoolLabel(((BoolLabel) data).lFalse, ((BoolLabel) data).lTrue);
+        return node.jjtGetChild(0).jjtAccept(this, B1);
     }
 
     @Override
@@ -209,12 +247,17 @@ public class IntermediateCodeGenVisitor implements ParserVisitor {
     @Override
     public Object visit(ASTBoolValue node, Object data) {
         // TODO
-        return null;
+        m_writer.print("goto " + (node.getValue() ? ((BoolLabel) data).lTrue : ((BoolLabel) data).lFalse) + "\n");
+        return node.getValue();
     }
 
     @Override
     public Object visit(ASTIdentifier node, Object data) {
         // TODO
+        if (SymbolTable.get(node.getValue()) == VarType.Bool) {
+            m_writer.println("if " + node.getValue() + " == 1 goto " + ((BoolLabel) data).lTrue);
+            m_writer.println("goto " + ((BoolLabel) data).lFalse);
+        }
         return node.getValue();
     }
 
