@@ -3,6 +3,8 @@ package analyzer.visitors;
 import analyzer.ast.*;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -71,8 +73,19 @@ public class IntermediateCodeGenVisitor implements ParserVisitor {
 
     @Override
     public Object visit(ASTScriptProgram node, Object data) {
-        node.childrenAccept(this, data);
+//        node.childrenAccept(this, data);
         // TODO
+        ArrayList<String> scriptCalls = new ArrayList<String>((Collection<String>) node
+                .jjtGetChild(node.jjtGetNumChildren() - 1)
+                .jjtAccept(this, data));
+
+        for (int i = 0; i < scriptCalls.size(); i++) {
+            for (int j = 0; j < node.jjtGetNumChildren() - 1; j++) {
+                if (scriptCalls.get(i).equals(((ASTScript) node.jjtGetChild(j)).getValue())) {
+                    node.jjtGetChild(j).jjtAccept(this, data);
+                }
+            }
+        }
         return null;
     }
 
@@ -84,9 +97,14 @@ public class IntermediateCodeGenVisitor implements ParserVisitor {
 
     @Override
     public Object visit(ASTScriptCall node, Object data) {
-        node.childrenAccept(this, data);
+//        node.childrenAccept(this, data);
         // TODO
-        return null;
+        ArrayList<String> scriptCalls = new ArrayList<>();
+        String scriptCallIdentifier = ((ASTIdentifier) node.jjtGetChild(0)).getValue();
+        scriptCalls.add(scriptCallIdentifier);
+        if (node.jjtGetNumChildren() > 1)
+            scriptCalls.addAll((Collection<String>) node.jjtGetChild(1).jjtAccept(this, data));
+        return scriptCalls;
     }
 
     @Override
