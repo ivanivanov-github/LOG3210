@@ -120,14 +120,12 @@ public class IntermediateCodeGenFallVisitor implements ParserVisitor {
 //        node.childrenAccept(this, data);
         // TODO
         if (node.jjtGetNumChildren() == 2) {
-            BoolLabel b = new BoolLabel(newLabel(), data.toString());
+            BoolLabel b = new BoolLabel(FALL, data.toString());
             node.jjtGetChild(0).jjtAccept(this, b);
-            m_writer.print(b.lTrue + "\n");
             node.jjtGetChild(1).jjtAccept(this, data);
         } else {
-            BoolLabel b = new BoolLabel(newLabel(), newLabel());
+            BoolLabel b = new BoolLabel(FALL, newLabel());
             node.jjtGetChild(0).jjtAccept(this, b);
-            m_writer.print(b.lTrue + "\n");
             node.jjtGetChild(1).jjtAccept(this, data);
             m_writer.print("goto " + data.toString() + "\n");
             m_writer.print(b.lFalse + "\n");
