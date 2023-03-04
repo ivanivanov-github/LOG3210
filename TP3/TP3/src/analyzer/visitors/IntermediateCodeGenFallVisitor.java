@@ -177,7 +177,7 @@ public class IntermediateCodeGenFallVisitor implements ParserVisitor {
             m_writer.print(b.lFalse + "\n");
             m_writer.print(identifier + " = 0" + "\n");
         }
-        return id;
+        return null;
     }
 
     @Override
@@ -304,7 +304,7 @@ public class IntermediateCodeGenFallVisitor implements ParserVisitor {
             // throw new Exception();
         }
 
-        return node.getValue();
+        return null;
     }
 
     @Override
@@ -351,7 +351,7 @@ public class IntermediateCodeGenFallVisitor implements ParserVisitor {
                 // throw new Exception();
             }
         }
-        
+
         return node.getValue();
     }
 

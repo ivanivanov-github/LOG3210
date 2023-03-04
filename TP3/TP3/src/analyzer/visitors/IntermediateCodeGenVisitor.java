@@ -257,21 +257,10 @@ public class IntermediateCodeGenVisitor implements ParserVisitor {
                 m_writer.println(b3.lFalse);
                 node.jjtGetChild(1).jjtAccept(this, b4);
                 break;
+            default:
+                break;
         }
 
-//        else if (node.getOps().get(0).toString().equals("&&")) {
-//            BoolLabel B1 = new BoolLabel(newLabel(), ((BoolLabel) data).lFalse);
-//            BoolLabel B2 = new BoolLabel(((BoolLabel) data).lTrue, ((BoolLabel) data).lFalse);
-//            node.jjtGetChild(0).jjtAccept(this, B1);
-//            m_writer.println(B1.lTrue);
-//            node.jjtGetChild(1).jjtAccept(this, B2);
-//        } else if (node.getOps().get(0).toString().equals("||")) {
-//            BoolLabel B1 = new BoolLabel(((BoolLabel) data).lTrue, newLabel());
-//            BoolLabel B2 = new BoolLabel(((BoolLabel) data).lTrue, ((BoolLabel) data).lFalse);
-//            node.jjtGetChild(0).jjtAccept(this, B1);
-//            m_writer.println(B1.lFalse);
-//            node.jjtGetChild(1).jjtAccept(this, B2);
-//        }
         return null;
     }
 
