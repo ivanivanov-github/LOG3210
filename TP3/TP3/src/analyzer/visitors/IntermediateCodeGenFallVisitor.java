@@ -309,7 +309,7 @@ public class IntermediateCodeGenFallVisitor implements ParserVisitor {
             String id1 = node.jjtGetChild(0).jjtAccept(this, data).toString();
             String id2 = node.jjtGetChild(1).jjtAccept(this, data).toString();
 
-            m_writer.print("ifFalse " + id1 + ' ' + node.getValue() + ' ' + id2 + " goto" + ((BoolLabel) data).lFalse + "\n");
+            m_writer.print("ifFalse " + id1 + ' ' + node.getValue() + ' ' + id2 + " goto " + ((BoolLabel) data).lFalse + "\n");
         } else {
             // throw new Exception();
         }
